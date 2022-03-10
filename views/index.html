@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twatter</title>
+</head>
+<body>
+    <form onsubmit="return false">
+        <textarea name="tweet_text" id="tweet_text" cols="30" rows="10"></textarea>
+        <button onclick="tweet()">Twat this</button>
+    </form>
+
+    <section id="tweets">
+
+    </section>
+
+    <template id="tweetTemp">
+        <form onsubmit="return false">
+            <input name="tweet_id" type="hidden">
+            <p id="tweetId"></p>
+            <p id="tweetText"></p>
+            <button>Like</button>
+            <button>Dislike</button>
+            <button>Update</button>
+            <button>Delete</button>
+        </form>
+    </template>
+
+    <script>
+        async function tweet() {
+            const form = event.target.form;
+            console.log(form.tweet_text.value);
+
+            const connection = await fetch("/tweet", {
+                method: "POST",
+                body: new FormData(form)
+            });
+
+            if (!connection.ok) {
+                alert("Could not tweet");
+            }
+
+            const tweet = await connection.json();
+            console.log(tweet);
+
+            const temp = document.querySelector("#tweetTemp");
+            const clone = temp.cloneNode(true).content;
+            clone.querySelector("#tweetId").textContent = tweet.tweet_id;
+            clone.querySelector("#tweetText").textContent = tweet.tweet_text;
+
+            const dest = document.querySelector("#tweets");
+            const firstChild = dest.firstChild;
+            dest.insertBefore(clone, firstChild);
+        }
+    </script>
+</body>
+</html>

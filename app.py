@@ -1,10 +1,30 @@
-from bottle import get, run
+from bottle import get, post, request, response, run, view
+import uuid
 
 ##############################
 @get("/")
+@view("index")
 def _():
-    return "hi"
-    
+    return
+
+##############################
+@post("/tweet")
+def _():
+    # Validate
+    # Connect to the DB
+    # Insert the tweet in the tweets table
+
+    response.status = 201
+    tweet_id = str(uuid.uuid4())
+    tweet_text = request.forms.get("tweet_text")
+    print(tweet_text)
+    tweet = {
+        "tweet_id" : tweet_id,
+        "tweet_text" : tweet_text
+    }
+
+    return tweet
+
 ##############################
 try:
     # Production
