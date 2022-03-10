@@ -17,8 +17,15 @@ async function tweet() {
 
     const temp = document.querySelector("#tweetTemp");
     const clone = temp.cloneNode(true).content;
-    clone.querySelector("#tweetId").textContent = tweet.tweet_id;
+    clone.querySelector("input[name='tweet_id']").value = tweet.tweet_id;
     clone.querySelector("#tweetText").textContent = tweet.tweet_text;
+    if (tweet.tweet_image != "") {
+        clone.querySelector("img").src = `./images/${tweet.tweet_image}`;
+    } else {
+        clone.querySelector("img").remove();
+    }
+    const createdAt = new Date(parseInt(tweet.tweet_created_at) * 1000);
+    clone.querySelector("#tweetCreatedAtDate").textContent = createdAt.toLocaleString();
 
     const dest = document.querySelector("#tweets");
     const firstChild = dest.firstChild;
