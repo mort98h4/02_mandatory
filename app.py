@@ -1,6 +1,8 @@
 from bottle import default_app, get, post, request, response, run, static_file, view
 import uuid
 import g
+import time
+from datetime import datetime
 
 ##############################
 @get("/scripts/<script>")
@@ -31,17 +33,28 @@ def _(language = "en"):
 
         tweet_id = str(uuid.uuid4())
 
+        tweet_image = ""
         if request.files.get("tweet_image"):
             tweet_image, error = g._IS_TWEET_IMAGE(request.files.get("tweet_image"), tweet_id, language)
             if error: return g._SEND(400, error) 
 
-        response.status = 201
+        tweet_created_at = str(int(time.time()))
+        tweet_created_at_date = datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")
+        tweet_updated_at = ""
+        tweet_updated_at_date = ""
+
+        # TODO: Get the user_id as well
         
         tweet = {
             "tweet_id" : tweet_id,
             "tweet_text" : tweet_text,
-            "tweet_image" : tweet_image
+            "tweet_image" : tweet_image,
+            "tweet_created_at" : tweet_created_at,
+            "tweet_created_at_date" : tweet_created_at_date,
+            "tweet_updated_at" : tweet_updated_at,
+            "tweet_updated_at_date" : tweet_updated_at_date
         }
+        response.status = 201
         return tweet
     except Exception as ex:
         print(ex)
