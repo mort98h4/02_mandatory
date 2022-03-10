@@ -8,6 +8,11 @@ def _(script):
     return static_file(script, root="./scripts")
 
 ##############################
+@get("/images/<image>")
+def _(image):
+    return static_file(image, root="./images", mimetype="image/*")
+
+##############################
 @get("/")
 @view("index")
 def _():
@@ -24,11 +29,18 @@ def _(language = "en"):
         tweet_text, error = g._IS_TWEET_TEXT(request.forms.get("tweet_text"), language)
         if error: return g._SEND(400, error)
 
-        response.status = 201
         tweet_id = str(uuid.uuid4())
+
+        if request.files.get("tweet_image"):
+            tweet_image, error = g._IS_TWEET_IMAGE(request.files.get("tweet_image"), tweet_id, language)
+            if error: return g._SEND(400, error) 
+
+        response.status = 201
+        
         tweet = {
             "tweet_id" : tweet_id,
             "tweet_text" : tweet_text,
+            "tweet_image" : tweet_image
         }
         return tweet
     except Exception as ex:
