@@ -1,5 +1,10 @@
-from bottle import get, post, request, response, run, view
+from bottle import default_app, get, post, request, response, run, static_file, view
 import uuid
+
+##############################
+@get("/scripts/<script>")
+def _(script):
+    return static_file(script, root="./scripts")
 
 ##############################
 @get("/")
