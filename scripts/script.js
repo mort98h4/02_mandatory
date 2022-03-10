@@ -9,6 +9,7 @@ async function tweet() {
 
     if (!connection.ok) {
         alert("Could not tweet");
+        return
     }
 
     const tweet = await connection.json();
