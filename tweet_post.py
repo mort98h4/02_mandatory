@@ -17,9 +17,9 @@ def _(language = "en"):
 
         tweet_id = str(uuid.uuid4())
 
-        tweet_image = ""
-        if request.files.get("tweet_image"):
-            tweet_image, error = g._IS_TWEET_IMAGE(request.files.get("tweet_image"), tweet_id, language)
+        tweet_image_src = ""
+        if request.files.get("tweet_image_src"):
+            tweet_image_src, error = g._IS_TWEET_IMAGE(request.files.get("tweet_image_src"), tweet_id, language)
             if error: return g._SEND(400, error) 
 
         tweet_created_at = str(int(time.time()))
@@ -32,7 +32,7 @@ def _(language = "en"):
         tweet = {
             "tweet_id" : tweet_id,
             "tweet_text" : tweet_text,
-            "tweet_image" : tweet_image,
+            "tweet_image_src" : tweet_image_src,
             "tweet_created_at" : tweet_created_at,
             "tweet_created_at_date" : tweet_created_at_date,
             "tweet_updated_at" : tweet_updated_at,

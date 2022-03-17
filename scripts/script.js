@@ -19,8 +19,8 @@ async function tweet() {
     const clone = temp.cloneNode(true).content;
     clone.querySelector("input[name='tweet_id']").value = tweet.tweet_id;
     clone.querySelector("#tweetText").textContent = tweet.tweet_text;
-    if (tweet.tweet_image != "") {
-        clone.querySelector("img").src = `./images/${tweet.tweet_image}`;
+    if (tweet.tweet_image_src != "") {
+        clone.querySelector("img").src = `./images/${tweet.tweet_image_src}`;
     } else {
         clone.querySelector("img").remove();
     }
