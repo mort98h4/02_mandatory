@@ -66,3 +66,29 @@ def _IS_TWEET_IMAGE(image=None, id=None, language="en"):
         os.remove(f"./images/{image_name}")
         return None, errors_suspicious_file[language]
     return image_name, None
+
+##############################
+def _IS_NAME(name=None, language="en", name_type="first"):
+    name_type = name_type.capitalize()
+    min, max = 2, 30
+    errors_name_missing = {
+        "en": f"{name_type} name is missing.",
+        "da": "Navn mangler."
+    }
+    errors_min = {
+        "en": f"{name_type} first name must be at least {min}",
+        "da": f"Navn skal minimum indholde {min} tegn."
+    }
+    errors_max = {
+        "en": f"{name_type} name is not allowed to exceed {max} characters.",
+        "da": f"Navn må ikke være mere end {max} tegn."
+    }
+
+    if not name: return None, errors_name_missing[language]
+    name = re.sub("[\n\t]*", "", name)
+    name = re.sub(" +", " ", name)
+    name = name.strip()
+    if len(name) < min: return None, errors_min[language]
+    if len(name) > max: return None, errors_max[language]
+    name = name.capitalize()
+    return name, None

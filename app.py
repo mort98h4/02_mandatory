@@ -2,6 +2,7 @@ from bottle import default_app, get, post, request, response, run, static_file, 
 import uuid
 import g
 import time
+import re
 from datetime import datetime
 
 ##############################
@@ -22,6 +23,23 @@ def _(image):
 @view("index")
 def _():
     return
+
+##############################
+@post("/signup")
+@post("/<language>/signup")
+def _(language = "en"):
+
+    user_first_name, error = g._IS_NAME(request.forms.get("user_first_name"), language, "first")
+    if error: return g._SEND(400, error)
+    user_last_name, error = g._IS_NAME(request.forms.get("user_last_name"), language, "last")
+    if error: return g._SEND(400, error)
+
+    user = {
+        "user_first_name": user_first_name,
+        "user_last_name": user_last_name
+    }
+
+    return user
 
 ##############################
 @get("/<user_handle>")
