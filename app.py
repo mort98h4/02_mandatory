@@ -30,6 +30,8 @@ def _():
 def _(language = "en"):
     try:
         if f"{language}_server_error" not in g.ERRORS: language = "en"
+
+        # Validate
         user_first_name, error = g._IS_NAME(request.forms.get("user_first_name"), language, "first")
         if error: return g._SEND(400, error)
         user_last_name, error = g._IS_NAME(request.forms.get("user_last_name"), language, "last")
@@ -78,6 +80,9 @@ def _(language = "en"):
     except Exception as ex:
         print(ex)
         return g._SEND(500, g.ERRORS[f"{language}_server_error"])
+    
+    # Connect to the DB
+    # Insert the user to the users table
 
 
 ##############################
