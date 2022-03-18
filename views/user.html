@@ -1,3 +1,26 @@
 % include('header', title=user["user_handle"])
     {{ user }}
+
+    <form onsubmit="return false">
+        <textarea id="tweet_text" name="tweet_text" id="tweet_text" cols="30" rows="10"></textarea>
+        <input id="tweet_image_src" name="tweet_image_src" type="file" accept="image/png, image/jpg, image/jpeg">
+        <button onclick="tweet()">Twat this</button>
+    </form>
+
+    <section id="tweets">
+
+    </section>
+
+    <template id="tweetTemp">
+        <form onsubmit="return false">
+            <input name="tweet_id" type="hidden">
+            <p id="tweetText"></p>
+            <img>
+            <p id="tweetCreatedAtDate"></p>
+            <button>Like</button>
+            <button>Dislike</button>
+            <button>Update</button>
+            <button>Delete</button>
+        </form>
+    </template>
 % include('footer')
