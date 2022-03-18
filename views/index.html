@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twatter</title>
-    <script src="./../scripts/script.js" defer></script>
-</head>
-<body>
+% include('header', title='Home')
     <form onsubmit="return false">
         <textarea id="tweet_text" name="tweet_text" id="tweet_text" cols="30" rows="10"></textarea>
         <input id="tweet_image_src" name="tweet_image_src" type="file" accept="image/png, image/jpg, image/jpeg">
@@ -29,5 +21,4 @@
             <button>Delete</button>
         </form>
     </template>
-</body>
-</html>
+% include('footer')
