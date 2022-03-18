@@ -1,24 +1,36 @@
 % include('header', title='Home')
-    <form onsubmit="return false">
-        <textarea id="tweet_text" name="tweet_text" id="tweet_text" cols="30" rows="10"></textarea>
-        <input id="tweet_image_src" name="tweet_image_src" type="file" accept="image/png, image/jpg, image/jpeg">
-        <button onclick="tweet()">Twat this</button>
-    </form>
+    <button>Sign up</button>
+    <button>Log in</button>
 
-    <section id="tweets">
-
-    </section>
-
-    <template id="tweetTemp">
-        <form onsubmit="return false">
-            <input name="tweet_id" type="hidden">
-            <p id="tweetText"></p>
-            <img>
-            <p id="tweetCreatedAtDate"></p>
-            <button>Like</button>
-            <button>Dislike</button>
-            <button>Update</button>
-            <button>Delete</button>
+    <section id="signUp">
+        <form action="/signup" method="POST">
+            <div class="">
+                <label for="userFirstName">First name</label>
+                <input id="userFirstName" name="user_first_name" type="text" placeholder="Please enter your first name" autocomplete="given-name" value="">
+            </div>
+            <div class="">
+                <label for="userLastName">Last name</label>
+                <input id="userLastName" name="user_last_name" type="text" placeholder="Please enter your last name" autocomplete="family-name" value="">
+            </div>
+            <div class="">
+                <label for="userEmail">E-mail</label>
+                <input id="userEmail" name="user_email" type="email" placeholder="Please enter your email" autocomplete="email" value="">
+            </div>
+            <div class="">
+                <label for="userHandle">Username</label>
+                <input id="userHandle" name="user_handle" type="text" placeholder="Please enter your desired username" autocomplete="username" value="">
+            </div>
+            <div class="">
+                <label for="userPassword">Password</label>
+                <input id="userPassword" name="user_password" type="password" placeholder="Please enter your desired password">
+            </div>
+            <div class="">
+                <label for="userConfirmPassword">Confirm password</label>
+                <input id="userConfirmPassword" name="user_confirm_password" type="password" placeholder="Please confirm your desired password">
+            </div>
+            <div class="">
+                <button>Sign up</button>
+            </div>
         </form>
-    </template>
+    </section>
 % include('footer')
