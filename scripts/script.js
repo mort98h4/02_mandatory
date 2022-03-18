@@ -18,6 +18,7 @@ async function tweet() {
     const temp = document.querySelector("#tweetTemp");
     const clone = temp.cloneNode(true).content;
     clone.querySelector("input[name='tweet_id']").value = tweet.tweet_id;
+    clone.querySelector("input[name='user_id'").value = tweet.user_id;
     clone.querySelector("#tweetText").textContent = tweet.tweet_text;
     if (tweet.tweet_image_src != "") {
         clone.querySelector("img").src = `./images/${tweet.tweet_image_src}`;

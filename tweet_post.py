@@ -26,8 +26,7 @@ def _(language = "en"):
         tweet_created_at_date = datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S")
         tweet_updated_at = ""
         tweet_updated_at_date = ""
-
-        # TODO: Get the user_id as well
+        user_id = request.forms.get("user_id")
         
         tweet = {
             "tweet_id" : tweet_id,
@@ -36,7 +35,8 @@ def _(language = "en"):
             "tweet_created_at" : tweet_created_at,
             "tweet_created_at_date" : tweet_created_at_date,
             "tweet_updated_at" : tweet_updated_at,
-            "tweet_updated_at_date" : tweet_updated_at_date
+            "tweet_updated_at_date" : tweet_updated_at_date,
+            "user_id": user_id
         }
         response.status = 201
         return tweet
