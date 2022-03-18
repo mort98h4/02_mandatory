@@ -37,7 +37,7 @@ def _(user_handle, language = "en"):
     print("#"*30)
     print(display_user)
 
-    return dict(user_handle=user_handle)
+    return dict(user_handle=user_handle, user=display_user)
 
 ##############################
 try:
