@@ -24,6 +24,22 @@ def _():
     return
 
 ##############################
+@get("/<user_handle>")
+@get("/<language>/<user_handle>")
+@view("user")
+def _(user_handle, language = "en"):
+    display_user = {}
+
+    for user in g.users:
+        if user_handle == user["user_handle"]:
+            display_user = user
+
+    print("#"*30)
+    print(display_user)
+
+    return dict(user_handle=user_handle)
+
+##############################
 try:
     # Production
     import production
