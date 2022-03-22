@@ -23,8 +23,6 @@ async function logIn() {
         emailHint.style.display = "none";
     }
 
-    console.log(passwordStatus);
-
     if (passwordStatus.valueMissing) {
         passwordHint.textContent = "Please enter your password.";
         passwordHint.style.display = "block";
