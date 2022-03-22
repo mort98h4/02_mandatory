@@ -43,12 +43,14 @@ async function logIn() {
         method: "POST",
         body: new FormData(form)
     });
-    console.log(connection);
     const response = await connection.json();
-    console.log(response);
 
     if (!connection.ok) {
-        location.href = `./login?error=invalid_input&user_email=${userEmail.value}`
+        let errorStr;
+        const info = response.info.toLowerCase();
+        info.includes("password") ? errorStr = "incorrect_password" : errorStr = "user_not_found";
+
+        location.href = `./login?error=${errorStr}&user_email=${userEmail.value}`
     } else {
         location.href = './explore'
     }
