@@ -6,6 +6,8 @@ import re
 from datetime import datetime
 
 ##############################
+import login_get        # GET
+
 import signup_post      # POST
 import login_post       # POST
 import tweet_post       # POST
@@ -24,13 +26,6 @@ def _(image):
 @get("/")
 @view("index")
 def _():
-    return
-
-##############################
-@get("/login")
-@get("/<language>/login")
-@view("login")
-def _(language = "en"):
     return
 
 ##############################
