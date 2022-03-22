@@ -7,6 +7,7 @@ from datetime import datetime
 
 ##############################
 import signup_post      # POST
+import login_post       # POST
 import tweet_post       # POST
 
 ##############################
@@ -26,20 +27,35 @@ def _():
     return
 
 ##############################
-@get("/<user_handle>")
-@get("/<language>/<user_handle>")
-@view("user")
-def _(user_handle, language = "en"):
-    display_user = {}
+@get("/login")
+@get("/<language>/login")
+@view("login")
+def _(language = "en"):
+    return
 
-    for user in g.users:
-        if user_handle == user["user_handle"]:
-            display_user = user
+##############################
+# @get("/<user_handle>")
+# @get("/<language>/<user_handle>")
+# @view("user")
+# def _(user_handle = "user_handle", language = "en"):
+#     try:
+#         if f"{language}_server_error" not in g.ERRORS: language = "en"
 
-    print("#"*30)
-    print(display_user)
+#         print("#"*30)
+#         print(user_handle)
+#         display_user = {}
 
-    return dict(user_handle=user_handle, user=display_user)
+#         for user in g.users:
+#             if user_handle == user["user_handle"]:
+#                 display_user = user
+
+#         print("#"*30)
+#         print(display_user)
+
+#         return dict(user=display_user)
+#     except Exception as ex:
+#         print(ex)
+#         return g._SEND(500, g.ERRORS[f"{language}_server_error"])
 
 ##############################
 try:
