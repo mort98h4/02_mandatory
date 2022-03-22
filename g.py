@@ -12,10 +12,14 @@ ERRORS = {
     "da_server_error": "Server fejl"
 }
 
+JWT_SECRET = "4w50m3 k3Y"
+
 ##############################
 users = [
     {"user_id":"af1cf565-1c2d-4673-948d-6544276b54b2", "user_handle":"mortengross", "user_first_name":"Morten", "user_last_name":"Gross", "user_email":"m@g.dk", "user_password":"123456Qw", "user_image_src":"03e2f8bd-3453-47d7-907b-9cc9c1adcc28.png", "user_description":"Some description", "user_created_at":str(int(time.time())), "user_created_at_date":datetime.now().strftime("%Y-%B-%d-%A %H:%M:%S"), "user_updated_at":"", "user_updated_at_date":""}
 ]
+
+sessions = []
 
 ##############################
 def _SEND(status = 400, error_message = "Unknown error"):
