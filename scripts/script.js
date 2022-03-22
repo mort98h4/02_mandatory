@@ -39,7 +39,19 @@ async function logIn() {
         passwordHint.style.display = "none";
     }
     
-    form.submit();
+    const connection = await fetch("/login", {
+        method: "POST",
+        body: new FormData(form)
+    });
+    console.log(connection);
+    const response = await connection.json();
+    console.log(response);
+
+    if (!connection.ok) {
+        location.href = `./login?error=invalid_input&user_email=${userEmail.value}`
+    } else {
+        location.href = './explore'
+    }
 }
 
 async function tweet() {
