@@ -1,0 +1,19 @@
+% include('header', title='Log in')
+    <main>
+        <form id="loginForm" onsubmit="logIn()" action="/login" method="POST" novalidate="true">
+            <div class="">
+                <label for="userEmail" class="">E-mail</label>
+                <input id="userEmail" name="user_email" type="email" class="" autocomplete="email" placeholder="Please enter your e-mail" pattern='(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))' required>
+                <span id="emailHint" class="hidden hint" style="display: none;"></span>
+            </div>
+            <div class="">
+                <label for="userPassword" class="">Password</label>
+                <input id="userPassword" name="user_password" type="password" class="" placeholder="Please enter your password" pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}' required>
+                <span id="passwordHint" class="hidden hint" style="display: none;"></span>
+            </div>
+            <div class="">
+                <button>Log in</button>
+            </div>
+        </form>
+    </main>
+% include('footer')
