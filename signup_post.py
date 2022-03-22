@@ -1,4 +1,4 @@
-from bottle import post, request, response
+from bottle import post, redirect, request, response
 import uuid
 import g
 import time
@@ -18,12 +18,12 @@ def _(language = "en"):
         if error: return g._SEND(400, error)
         user_email, error = g._IS_EMAIL(request.forms.get("user_email"), language)
         if error: return g._SEND(400, error)
-        user_email, error = g._ALREADY_EXISTS(user_email, "user_email", language)
-        if error: return g._SEND(400, error)
+        # user_email, error = g._ALREADY_EXISTS(user_email, "user_email", language)
+        # if error: return g._SEND(400, error)
         user_handle, error = g._IS_HANDLE(request.forms.get("user_handle"), language)
         if error: return g._SEND(400, error)
-        user_handle, error = g._ALREADY_EXISTS(user_handle, "user_handle", language)
-        if error: return g._SEND(400, error)
+        # user_handle, error = g._ALREADY_EXISTS(user_handle, "user_handle", language)
+        # if error: return g._SEND(400, error)
         user_password, error = g._IS_PASSWORD(request.forms.get("user_password"), language)
         if error: return g._SEND(400, error)
 
@@ -43,10 +43,10 @@ def _(language = "en"):
 
         user = {
             "user_id": str(uuid.uuid4()),
+            "user_handle": user_handle,
             "user_first_name": user_first_name,
             "user_last_name": user_last_name,
             "user_email": user_email,
-            "user_handle": user_handle,
             "user_password": user_password,
             "user_image_src": "",
             "user_description": "",
@@ -55,37 +55,35 @@ def _(language = "en"):
             "user_updated_at":"", 
             "user_updated_at_date":""
         }
+        
     except Exception as ex:
         print(ex)
         return g._SEND(500, g.ERRORS[f"{language}_server_error"])
 
     try:
         db = g._DB_CONNECT("database.sqlite")
-        db.execute("""
-            INSERT INTO users
-            VALUES(
-                :user_id, 
-                :user_first_name, 
-                :user_last_name,
-                :user_email,
-                :user_handle, 
-                :user_password,
-                :user_image_src,
-                :user_description,
-                :user_created_at,
-                :user_created_at_date,
-                :user_updated_at,
-                :user_updated_at_date
-            )
-        """, user)
+        users = db.execute("""INSERT INTO users
+                              VALUES(:user_id, 
+                                   :user_handle, 
+                                   :user_first_name, 
+                                   :user_last_name, 
+                                   :user_email, 
+                                   :user_password, 
+                                   :user_image_src, 
+                                   :user_description, 
+                                   :user_created_at, 
+                                   :user_created_at_date, 
+                                   :user_updated_at, 
+                                   :user_updated_at_date)""", user)
         db.commit()
         response.status = 201
         return user
     except Exception as ex:
-        print(ex)
+        print(type(ex))
+        if "user_handle" in str(ex): print("user_handle already exists.")
+        if "user_email" in str(ex): print("user_email already exists.")
+
         return g._SEND(500, g.ERRORS[f"{language}_server_error"])
     finally:
         db.close()
-    
-    # Connect to the DB
-    # Insert the user to the users table
+        return redirect("./login")
