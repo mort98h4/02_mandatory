@@ -55,11 +55,37 @@ def _(language = "en"):
             "user_updated_at":"", 
             "user_updated_at_date":""
         }
+    except Exception as ex:
+        print(ex)
+        return g._SEND(500, g.ERRORS[f"{language}_server_error"])
+
+    try:
+        db = g._DB_CONNECT("database.sqlite")
+        db.execute("""
+            INSERT INTO users
+            VALUES(
+                :user_id, 
+                :user_first_name, 
+                :user_last_name,
+                :user_email,
+                :user_handle, 
+                :user_password,
+                :user_image_src,
+                :user_description,
+                :user_created_at,
+                :user_created_at_date,
+                :user_updated_at,
+                :user_updated_at_date
+            )
+        """, user)
+        db.commit()
         response.status = 201
         return user
     except Exception as ex:
         print(ex)
         return g._SEND(500, g.ERRORS[f"{language}_server_error"])
+    finally:
+        db.close()
     
     # Connect to the DB
     # Insert the user to the users table

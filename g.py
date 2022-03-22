@@ -4,6 +4,7 @@ import os
 import imghdr
 import time
 from datetime import datetime
+import sqlite3
 
 REGEX_EMAIL = '^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
 
@@ -170,3 +171,16 @@ def _IS_PASSWORD(password=None, language="en"):
     if not password: return None, errors_missing[language]
     if not re.match("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$", password): return None, errors_invalid[language]
     return password, None
+
+##############################
+def _DB_CONNECT(db_name):
+    db = sqlite3.connect(db_name)
+    db.row_factory = _CREATE_JSON_FROM_SQLITE_RESULT
+    return db
+
+##############################
+def _CREATE_JSON_FROM_SQLITE_RESULT(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
