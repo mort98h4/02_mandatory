@@ -19,7 +19,7 @@ def _(language = "en"):
 
         tweet_image_src = ""
         if request.files.get("tweet_image_src"):
-            tweet_image_src, error = g._IS_TWEET_IMAGE(request.files.get("tweet_image_src"), tweet_id, language)
+            tweet_image_src, error = g._IS_TWEET_IMAGE(request.files.get("tweet_image_src"), language)
             if error: return g._SEND(400, error) 
 
         tweet_created_at = str(int(time.time()))

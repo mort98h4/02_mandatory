@@ -5,6 +5,7 @@ import imghdr
 import time
 from datetime import datetime
 import sqlite3
+import uuid
 
 REGEX_EMAIL = '^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
 
@@ -53,7 +54,7 @@ def _IS_TWEET_TEXT(text=None, language="en"):
     return text, None
 
 ##############################
-def _IS_TWEET_IMAGE(image=None, id=None, language="en"):
+def _IS_TWEET_IMAGE(image=None, language="en"):
     errors_file_not_allowed = {
         "en": "Filetype is not allowed",
         "da": "Filtypen er ikke tilladt."
@@ -66,7 +67,7 @@ def _IS_TWEET_IMAGE(image=None, id=None, language="en"):
     file_name, file_extension = os.path.splitext(image.filename)
     if file_extension not in (".png", ".jpeg", ".jpg"): return None, errors_file_not_allowed[language]
     if file_extension == ".jpg": file_extension = ".jpeg"
-    image_name = f"{id}{file_extension}"
+    image_name = f"{str(uuid.uuid4())}{file_extension}"
     image.save(f"./images/{image_name}")
     imghdr_extension = imghdr.what(f"./images/{image_name}")
     if not file_extension == f".{imghdr_extension}":
