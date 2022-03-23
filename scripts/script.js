@@ -186,3 +186,20 @@ async function updateTweet() {
         tweetImage.src = `./images/${response.tweet_image_src}`;
     }
 }
+
+async function deleteTweet() {
+    const form = event.target.form;
+    const tweetId = form.tweet_id.value;
+
+    const connection = await fetch(`/tweet/${tweetId}`, {
+        method: "DELETE",
+        body: new FormData(form)
+    });
+
+    console.log(connection);
+    const response = await connection.json();
+    if (!connection.ok) {
+        return
+    }
+    document.querySelector(`#tweet_${tweetId}`).remove();
+}

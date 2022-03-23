@@ -33,7 +33,9 @@
                     % if user and user['user_id'] == tweet['user_id']:
                         <button onclick="toggleUpdateTweet()">Update</button>
                     % end
-                    <button>Delete</button>
+                    % if user and user['user_id'] == tweet['user_id']:
+                    <button onclick="deleteTweet()">Delete</button>
+                    % end
                 </form>
             % end
         </section>
@@ -67,7 +69,7 @@
             <button>Like</button>
             <button>Dislike</button>
             <button onclick="toggleUpdateTweet()">Update</button>
-            <button>Delete</button>
+            <button onclick="deleteTweet()">Delete</button>
         </form>
     </template>
 % include('footer')
