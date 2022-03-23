@@ -22,13 +22,9 @@ def _(language = "en"):
         return g._SEND(500, g.ERRORS[f"{language}_server_error"])
 
     try:
-        print("#"*30)
-        print({"user_email": user_email, "user_password": user_password})
-
         db = g._DB_CONNECT("database.sqlite")
         user = db.execute(""" SELECT * FROM users
                               WHERE user_email = ?""", (user_email,)).fetchone()
-        print(user)
         if not user: 
             errors = {
                 "en": "Email does not match a user.",
@@ -38,8 +34,8 @@ def _(language = "en"):
 
         if not user_password == user['user_password']:
             errors = {
-                "en": "Password is incorrect.",
-                "da": "Kodeordet er ikke korrekt."
+                "en": "Password was incorrect.",
+                "da": "Kodeordet var ikke korrekt."
             }
             return g._SEND(400, errors[language]) 
 
