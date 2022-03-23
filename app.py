@@ -17,6 +17,8 @@ import tweet_post       # POST
 
 import tweet_put        # PUT
 
+import tweet_delete     # DELETE
+
 ##############################
 @get("/scripts/<script>")
 def _(script):
