@@ -10,23 +10,29 @@
                 <button onclick="tweet()">Twat this</button>
             </form>
         % end
+
+        <section id="updateTweet" style="display: none;">
+            
+        </section>
     
         <section id="tweets">
             % for tweet in tweets:
-                <form onsubmit="return false" class="tweet">
+                <form id="tweet_{{ tweet['tweet_id' ]}}" onsubmit="return false" class="tweet">
                     <img src="./images/{{ tweet['user_image_src'] }}">
                     <p>{{ tweet['user_first_name'] }} {{ tweet['user_last_name'] }}</p>
                     <p>@{{ tweet['user_handle'] }}</p>
                     <input name="tweet_id" type="hidden" value="{{ tweet['tweet_id'] }}">
                     <input name="user_id" type="hidden" value="{{ tweet['user_id'] }}">
-                    <p>{{ tweet['tweet_text'] }}</p>
+                    <p id="tweetText">{{ tweet['tweet_text'] }}</p>
                     % if not tweet['tweet_image_src'] == "":
-                        <img src="./images/{{ tweet['tweet_image_src'] }}">
+                        <img class="tweetImage" src="./images/{{ tweet['tweet_image_src'] }}">
                     % end
-                    <p>{{ tweet['tweet_created_at_date'] }}</p>
+                    <p id="tweetCreatedAt">{{ tweet['tweet_created_at_date'] }}</p>
                     <button>Like</button>
                     <button>Dislike</button>
-                    <button>Update</button>
+                    % if user['user_id'] == tweet['user_id']:
+                        <button onclick="toggleUpdateTweet()">Update</button>
+                    % end
                     <button>Delete</button>
                 </form>
             % end
@@ -35,6 +41,19 @@
         
     </main>
 
+    <template id="updateTweetTemp">
+        <form onsubmit="return false">
+            <input type="hidden" name="tweet_id">
+            <textarea name="tweet_text"></textarea>
+            <input type="file">
+            <input type="hidden" name="tweet_image_src">
+            <button onclick="updateTweet()">Update Tweet</button>
+            <button class="delete">X</button>
+            <img>
+            <span class="hint" style="display: none;"></span>
+        </form>
+    </template>
+
     <template id="tweetTemp">
         <form onsubmit="return false">
             <img id="userImage">
@@ -42,12 +61,12 @@
             <p id="userHandle"></p>
             <input name="tweet_id" type="hidden">
             <input name="user_id" type="hidden">
-            <p id="tweetText"></p>
+            <p id="tweetText" class="tweetImage"></p>
             <img id="#tweetImage">
             <p id="tweetCreatedAtDate"></p>
             <button>Like</button>
             <button>Dislike</button>
-            <button>Update</button>
+            <button onclick="toggleUpdateTweet()">Update</button>
             <button>Delete</button>
         </form>
     </template>

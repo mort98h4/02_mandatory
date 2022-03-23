@@ -87,6 +87,7 @@ async function tweet() {
 
     const temp = document.querySelector("#tweetTemp");
     const clone = temp.cloneNode(true).content;
+    clone.querySelector("form").setAttribute("id", `tweet_${tweet.tweet_id}`);
     clone.querySelector("#userName").textContent = `${tweet.user_first_name} ${tweet.user_last_name}`;
     clone.querySelector("#userHandle").textContent = `@${tweet.user_handle}`;
     clone.querySelector("#userImage").src = `./images/${tweet.user_image_src}`;
@@ -104,4 +105,83 @@ async function tweet() {
     const dest = document.querySelector("#tweets");
     const firstChild = dest.firstChild;
     dest.insertBefore(clone, firstChild);
+}
+
+function toggleUpdateTweet() {
+    const form = event.target.form;
+
+    const temp = document.querySelector("#updateTweetTemp");
+    const clone = temp.cloneNode(true).content;
+
+    clone.querySelector("[name='tweet_id']").value = form.querySelector("[name='tweet_id']").value;
+    clone.querySelector("textarea").value = form.querySelector("#tweetText").textContent;
+    
+    if (!form.querySelector(".tweetImage")) {
+        clone.querySelector("button.delete").remove();
+        clone.querySelector("img").remove();
+        clone.querySelector("input[type='hidden'][name='tweet_image_src']").remove();
+        clone.querySelector("input[type='file']").setAttribute("name", "tweet_image_src");
+    } else {
+        const src = form.querySelector(".tweetImage").src;
+        const imageSrc = src.substring(src.lastIndexOf("/") + 1);
+        clone.querySelector("img").src = src;
+        clone.querySelector("input[type='file']").style.display = "none";
+        clone.querySelector("input[type='hidden'][name='tweet_image_src']").value = imageSrc;
+        clone.querySelector("button.delete").addEventListener("click", removeImage);
+    }
+
+    const dest = document.querySelector("#updateTweet");
+    dest.appendChild(clone);
+    dest.style.display = "block";
+    
+    function removeImage() {
+        dest.querySelector("button.delete").removeEventListener("click", removeImage);
+        dest.querySelector("img").remove();
+        dest.querySelector("input[type='file']").style.display = "block";
+        dest.querySelector("input[type='file']").setAttribute("name", "tweet_image_src");
+        dest.querySelector("input[type='hidden'][name='tweet_image_src']").value = "";
+        dest.querySelector("button.delete").remove();
+    }
+}
+
+async function updateTweet() {
+    const form = event.target.form;
+    console.log(form);
+    const tweetId = form.tweet_id.value;
+
+    const connection = await fetch(`/tweet/${tweetId}`, {
+        method: "PUT",
+        body: new FormData(form)
+    });
+
+    const response = await connection.json();
+
+    const updateTweet = document.querySelector("#updateTweet");
+
+    if (!connection.ok) {
+        const errorMessage = response.info.replace("_", " ");
+        updateTweet.querySelector(".hint").textContent = errorMessage;
+        updateTweet.querySelector(".hint").style.display = "block";
+        return
+    }
+
+    updateTweet.innerHTML = "";
+    updateTweet.style.display = "none";
+
+    const tweet = document.querySelector(`#tweet_${response.tweet_id}`);
+    const tweetText = tweet.querySelector("#tweetText");
+    const tweetImage = tweet.querySelector(".tweetImage");
+    tweet.querySelector("#tweetText").textContent = response.tweet_text;
+    if (response.tweet_image_src === "" && tweetImage) {
+        tweetImage.remove();
+    }
+    if (response.tweet_image_src !== "" && !tweetImage) {
+        const img = document.createElement("img");
+        img.classList.add("tweetImage");
+        img.src = `./images/${response.tweet_image_src}`;
+        tweetText.after(img);
+    }
+    if (response.tweet_image_src !== "" && tweetImage) {
+        tweetImage.src = `./images/${response.tweet_image_src}`;
+    }
 }
