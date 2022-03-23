@@ -54,7 +54,7 @@ def _(language = "en"):
         db.commit()
 
         encoded_jwt = jwt.encode(user_session, g.JWT_SECRET, algorithm="HS256")
-        response.set_cookie("jwt", encoded_jwt)
+        response.set_cookie("jwt", encoded_jwt, path="/")
 
         return g._SEND(200, "Succesfull log in.") 
 
