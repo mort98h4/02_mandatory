@@ -38,11 +38,30 @@ def _(language = "en"):
             "tweet_updated_at_date" : tweet_updated_at_date,
             "user_id": user_id
         }
+    except Exception as ex:
+        print(ex)
+        return g._SEND(500, g.ERRORS[f"{language}_server_error"])
+    
+    try:
+        db = g._DB_CONNECT("database.sqlite")
+        db.execute("""INSERT INTO tweets
+                      values(
+                          :tweet_id,
+                          :tweet_text,
+                          :tweet_image_src,
+                          :tweet_created_at,
+                          :tweet_created_at_date,
+                          :tweet_updated_at,
+                          :tweet_updated_at_date,
+                          :user_id
+                      )""", tweet)
+        db.commit()
         response.status = 201
         return tweet
     except Exception as ex:
         print(ex)
         return g._SEND(500, g.ERRORS[f"{language}_server_error"])
-   
+    finally:
+        db.close()
     # Connect to the DB
     # Insert the tweet in the tweets table
