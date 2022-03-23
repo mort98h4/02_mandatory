@@ -22,6 +22,10 @@
                         <img src="./images/{{ tweet['tweet_image_src'] }}">
                     % end
                     <p>{{ tweet['tweet_created_at_date'] }}</p>
+                    <button>Like</button>
+                    <button>Dislike</button>
+                    <button>Update</button>
+                    <button>Delete</button>
                 </form>
             % end
         </section>
@@ -31,10 +35,13 @@
 
     <template id="tweetTemp">
         <form onsubmit="return false">
+            <img id="userImage">
+            <p id="userName"></p>
+            <p id="userHandle"></p>
             <input name="tweet_id" type="hidden">
             <input name="user_id" type="hidden">
             <p id="tweetText"></p>
-            <img>
+            <img id="#tweetImage">
             <p id="tweetCreatedAtDate"></p>
             <button>Like</button>
             <button>Dislike</button>
