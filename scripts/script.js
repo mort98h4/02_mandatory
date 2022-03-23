@@ -73,13 +73,16 @@ async function tweet() {
 
     const temp = document.querySelector("#tweetTemp");
     const clone = temp.cloneNode(true).content;
+    clone.querySelector("#userName").textContent = `${tweet.user_first_name} ${tweet.user_last_name}`;
+    clone.querySelector("#userHandle").textContent = `@${tweet.user_handle}`;
+    clone.querySelector("#userImage").src = `./images/${tweet.user_image_src}`;
     clone.querySelector("input[name='tweet_id']").value = tweet.tweet_id;
     clone.querySelector("input[name='user_id'").value = tweet.user_id;
     clone.querySelector("#tweetText").textContent = tweet.tweet_text;
     if (tweet.tweet_image_src != "") {
-        clone.querySelector("img").src = `./images/${tweet.tweet_image_src}`;
+        clone.getElementById("#tweetImage").src = `./images/${tweet.tweet_image_src}`;
     } else {
-        clone.querySelector("img").remove();
+        clone.getElementById("#tweetImage").remove();
     }
     const createdAt = new Date(parseInt(tweet.tweet_created_at) * 1000);
     clone.querySelector("#tweetCreatedAtDate").textContent = createdAt.toLocaleString();
