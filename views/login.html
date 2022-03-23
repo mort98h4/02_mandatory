@@ -3,7 +3,7 @@
         <form id="loginForm" onsubmit="logIn()" novalidate="true">
             <div class="">
                 <label for="userEmail" class="">E-mail</label>
-                <input id="userEmail" name="user_email" type="email" class="" value="{{ user_email or '' }}" autocomplete="email" placeholder="Please enter your e-mail" pattern='(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))' required>
+                <input id="userEmail" name="user_email" type="email" class="" autocomplete="email" placeholder="Please enter your e-mail" pattern='(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))' required>
                 <span id="emailHint" class="hidden hint" style="display: none;"></span>
             </div>
             <div class="">
@@ -11,9 +11,6 @@
                 <input id="userPassword" name="user_password" type="password" class="" placeholder="Please enter your password" pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}' required>
                 <span id="passwordHint" class="hidden hint" style="display: none;"></span>
             </div>
-            % if error:
-                <span class="hint">{{ error }}</span>
-            % end
             <div class="">
                 <button>Log in</button>
             </div>
