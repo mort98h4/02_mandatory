@@ -2,6 +2,10 @@
 
 async function logIn() {
     event.preventDefault();
+    const path = window.location.pathname;
+    const secondSlash = path.indexOf("/", 1);
+    const language = secondSlash === 3 ? path.substring(1, secondSlash) : "en";
+
     const form = document.querySelector("#loginForm");
     const userEmail = form.user_email;
     const emailHint = document.querySelector("#emailHint");
@@ -13,10 +17,12 @@ async function logIn() {
     if (emailStatus.valueMissing) {
         emailHint.style.display = "block";
         emailHint.textContent = "Please enter your e-mail.";
+        userPassword.value = "";
         return false;
     } else if (emailStatus.typeMismatch || emailStatus.patternMismatch) {
         emailHint.textContent = "Please enter a valid e-mail.";
         emailHint.style.display = "block";
+        userPassword.value = "";
         return false;
     } else {
         emailHint.textContent = "";
@@ -37,18 +43,26 @@ async function logIn() {
         passwordHint.style.display = "none";
     }
     
-    const connection = await fetch("/login", {
+    const connection = await fetch(`/${language}/login`, {
         method: "POST",
         body: new FormData(form)
     });
     const response = await connection.json();
-
+    console.log(response);
     if (!connection.ok) {
-        let errorStr;
         const info = response.info.toLowerCase();
-        info.includes("password") ? errorStr = "incorrect_password" : errorStr = "user_not_found";
-
-        location.href = `./login?error=${errorStr}&user_email=${userEmail.value}`
+        if (info.includes("email")) {
+            emailHint.style.display = "block";
+            emailHint.textContent = response.info;
+            passwordHint.style.display = "none";
+            passwordHint.textContent = "";
+        } else {
+            passwordHint.style.display = "block";
+            passwordHint.textContent = response.info;
+            emailHint.style.display = "none";
+            emailHint.textContent = "";
+        }
+        userPassword.value = "";
     } else {
         location.href = './explore'
     }
