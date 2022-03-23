@@ -15,32 +15,33 @@ async function logIn() {
     const passwordStatus = userPassword.validity; 
 
     if (emailStatus.valueMissing) {
-        emailHint.style.display = "block";
+        emailHint.classList.remove("hidden");
         emailHint.textContent = "Please enter your e-mail.";
         userPassword.value = "";
         return false;
     } else if (emailStatus.typeMismatch || emailStatus.patternMismatch) {
         emailHint.textContent = "Please enter a valid e-mail.";
-        emailHint.style.display = "block";
+        emailHint.classList.remove("hidden");
         userPassword.value = "";
         return false;
     } else {
         emailHint.textContent = "";
-        emailHint.style.display = "none";
+        emailHint.classList.add("hidden");
     }
 
     if (passwordStatus.valueMissing) {
         passwordHint.textContent = "Please enter your password.";
-        passwordHint.style.display = "block";
+        passwordHint.classList.remove("hidden");
         return false;
     } else if (passwordStatus.patternMismatch) {
         passwordHint.textContent = "Password must be at least 8 characters containing at least 1 uppercase letter, 1 lowercase letter and 1 number.";
-        passwordHint.style.display = "block";
+        passwordHint.classList.remove("hidden");
         userPassword.value = "";
         return false;
     } else {
         passwordHint.textContent = "";
-        passwordHint.style.display = "none";
+        passwordHint.classList.add("hidden");
+
     }
     
     const connection = await fetch(`/${language}/login`, {
@@ -52,14 +53,14 @@ async function logIn() {
     if (!connection.ok) {
         const info = response.info.toLowerCase();
         if (info.includes("email")) {
-            emailHint.style.display = "block";
+            emailHint.classList.remove("hidden");
             emailHint.textContent = response.info;
-            passwordHint.style.display = "none";
+            passwordHint.classList.add("hidden");
             passwordHint.textContent = "";
         } else {
-            passwordHint.style.display = "block";
+            passwordHint.classList.remove("hidden");
             passwordHint.textContent = response.info;
-            emailHint.style.display = "none";
+            emailHint.classList.add("hidden");
             emailHint.textContent = "";
         }
         userPassword.value = "";
@@ -127,18 +128,18 @@ function toggleUpdateTweet() {
         const src = form.querySelector(".tweetImage").src;
         const imageSrc = src.substring(src.lastIndexOf("/") + 1);
         clone.querySelector("img").src = src;
-        clone.querySelector("input[type='file']").style.display = "none";
+        clone.querySelector("input[type='file']").classList.add("hidden");
         clone.querySelector("input[type='hidden'][name='tweet_image_src']").value = imageSrc;
         clone.querySelector("button.delete").addEventListener("click", removeImage);
     }
 
     dest.appendChild(clone);
-    dest.style.display = "block";
+    dest.classList.remove("hidden");
     
     function removeImage() {
         dest.querySelector("button.delete").removeEventListener("click", removeImage);
         dest.querySelector("img").remove();
-        dest.querySelector("input[type='file']").style.display = "block";
+        dest.querySelector("input[type='file']").classList.remove("hidden");
         dest.querySelector("input[type='file']").setAttribute("name", "tweet_image_src");
         dest.querySelector("input[type='hidden'][name='tweet_image_src']").value = "";
         dest.querySelector("button.delete").remove();
@@ -162,12 +163,12 @@ async function updateTweet() {
     if (!connection.ok) {
         const errorMessage = response.info.replace("_", " ");
         updateTweet.querySelector(".hint").textContent = errorMessage;
-        updateTweet.querySelector(".hint").style.display = "block";
+        updateTweet.querySelector(".hint").classList.remove("hidden");
         return
     }
 
     updateTweet.innerHTML = "";
-    updateTweet.style.display = "none";
+    updateTweet.classList.add("hidden");
 
     const tweet = document.querySelector(`#tweet_${response.tweet_id}`);
     const tweetText = tweet.querySelector("#tweetText");
