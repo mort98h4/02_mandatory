@@ -30,7 +30,7 @@
                     <p id="tweetCreatedAt">{{ tweet['tweet_created_at_date'] }}</p>
                     <button>Like</button>
                     <button>Dislike</button>
-                    % if user['user_id'] == tweet['user_id']:
+                    % if user and user['user_id'] == tweet['user_id']:
                         <button onclick="toggleUpdateTweet()">Update</button>
                     % end
                     <button>Delete</button>
