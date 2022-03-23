@@ -56,6 +56,14 @@ def _(language = "en"):
                           :user_id
                       )""", tweet)
         db.commit()
+
+        tweet = db.execute("""SELECT tweets.tweet_id, tweets.tweet_text, tweets.tweet_image_src, tweets.tweet_created_at, tweets.tweet_created_at_date, tweets.tweet_updated_at, tweets.tweet_updated_at_date, tweets.user_id, users.user_handle, users.user_first_name, users.user_last_name, users.user_image_src
+                              FROM tweets
+                              JOIN users
+                              WHERE tweets.tweet_id = ?
+                              AND users.user_id = ?
+                              """, (tweet['tweet_id'], tweet['user_id'],)).fetchone()
+
         response.status = 201
         return tweet
     except Exception as ex:
