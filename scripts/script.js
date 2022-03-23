@@ -111,6 +111,8 @@ function toggleUpdateTweet() {
     const form = event.target.form;
 
     const temp = document.querySelector("#updateTweetTemp");
+    const dest = document.querySelector("#updateTweet");
+    dest.innerHTML = "";
     const clone = temp.cloneNode(true).content;
 
     clone.querySelector("[name='tweet_id']").value = form.querySelector("[name='tweet_id']").value;
@@ -130,7 +132,6 @@ function toggleUpdateTweet() {
         clone.querySelector("button.delete").addEventListener("click", removeImage);
     }
 
-    const dest = document.querySelector("#updateTweet");
     dest.appendChild(clone);
     dest.style.display = "block";
     
