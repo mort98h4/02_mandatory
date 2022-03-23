@@ -25,7 +25,7 @@ def _(language="en", id=""):
         counter = db.execute("DELETE FROM tweets WHERE tweet_id = ?", (tweet_id,)).rowcount
         db.commit()
         if not counter: return g._SEND(204, "")
-        os.remove(f"./images/{tweet_image_src['tweet_image_src']}")
+        if tweet_image_src['tweet_image_src'] != "": os.remove(f"./images/{tweet_image_src['tweet_image_src']}")
         response.status = 200
         return {"info": "Tweet deleted."}
     except Exception as ex:
