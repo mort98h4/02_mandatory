@@ -15,6 +15,8 @@ import login_post       # POST
 import logout_post      # POST
 import tweet_post       # POST
 
+import tweet_put        # PUT
+
 ##############################
 @get("/scripts/<script>")
 def _(script):
