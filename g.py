@@ -173,6 +173,17 @@ def _IS_PASSWORD(password=None, language="en"):
     return password, None
 
 ##############################
+def _IS_UUID4(text=None, language="en"):
+    errors = {
+        "en":"id must be uuid4.",
+        "da":"id skal være uuid4."
+    }
+    if not text: return None, errors[language]
+    regex_uuid4 = "^[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    if not re.match(regex_uuid4, text) : return None, errors[language]
+    return text, None
+
+##############################
 def _DB_CONNECT(db_name):
     db = sqlite3.connect(db_name)
     db.row_factory = _CREATE_JSON_FROM_SQLITE_RESULT
