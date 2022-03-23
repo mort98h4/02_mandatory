@@ -1,5 +1,7 @@
 % include('header', title='Home')
     <main>
+        <a href="/logout">Log out</a>
+
         % if user:
             <form onsubmit="return false">
                 <input name="user_id" type="hidden" value="{{ user['user_id']}}">
