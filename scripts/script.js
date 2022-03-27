@@ -1,5 +1,9 @@
 "use strict";
 
+function toggleSignUpModal() {
+    document.querySelector("#signUp").classList.toggle("hidden");
+}
+
 async function logIn() {
     event.preventDefault();
     const path = window.location.pathname;
